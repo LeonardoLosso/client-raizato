@@ -2,7 +2,8 @@
     <div class="input-password">
         <label :for="id">{{ label }}</label>
         <div class="input-wrapper">
-            <input :type="inputType" :id="id" :value="modelValue" @input="updateValue" :placeholder="placeholder" />
+            <input :type="inputType" :id="id" :value="modelValue" @input="updateValue" :placeholder="placeholder"
+                autocomplete="current-password" />
             <button type="button" @click="togglePasswordVisibility" class="toggle-password">
                 <span class="material-icons">
                     {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}

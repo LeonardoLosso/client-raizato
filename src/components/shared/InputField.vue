@@ -1,7 +1,8 @@
 <template>
   <div class="input-field">
     <label :for="id">{{ label }}</label>
-    <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)" />
+    <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)"
+      :autocomplete="autocomplete" />
   </div>
 </template>
 
@@ -26,6 +27,10 @@ export default {
       default: ""
     },
     modelValue: {
+      type: String,
+      default: ""
+    },
+    autocomplete: {
       type: String,
       default: ""
     }

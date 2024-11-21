@@ -1,4 +1,5 @@
 <template>
+  <ToastifyContainer />
   <LoginPage />
 </template>
 

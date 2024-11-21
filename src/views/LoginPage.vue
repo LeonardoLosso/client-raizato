@@ -1,10 +1,11 @@
 <template>
     <div class="login-container">
-        <form @submit.prevent="handleLogin" class="login-form">
+        <form @submit.prevent="handleSubmit" class="login-form">
             <h2>Login</h2>
-            <InputField label="Usuário" id="email" v-model="email" placeholder="Digite seu nome de usuário" />
+            <InputField label="Usuário" id="email" v-model="email" placeholder="Digite seu nome de usuário"
+                autocomplete="email" />
             <InputPassword label="Senha" id="password" v-model="password" placeholder="Digite sua senha" />
-            <ButtonComponent :loading="isLoading" type="primary" @click="handleSubmit">
+            <ButtonComponent :loading="isLoading" type="primary">
                 Entrar
             </ButtonComponent>
         </form>
@@ -16,7 +17,7 @@
 import InputPassword from "@/components/auth/InputPassword.vue";
 import ButtonComponent from "@/components/shared/ButtonComponent.vue";
 import InputField from "@/components/shared/InputField.vue";
-import { login } from '@/services/authService';
+import { login } from '@/http/services/authService';
 
 export default {
     name: "LoginPage",
@@ -33,20 +34,16 @@ export default {
         };
     },
     methods: {
-        async handleLogin() {
+        async handleSubmit() {
             this.isLoading = true;
-            try {
-                const credentials = {
-                    email: this.email,
-                    password: this.password,
-                };
-                const data = await login(credentials);
-                console.log('Login bem-sucedido!', data);
-            } catch (error) {
-                console.error('Erro ao fazer login:', error);
-            } finally {
-                this.isLoading = false;
-            }
+
+            const credentials = {
+                email: this.email,
+                password: this.password,
+            };
+            await login(credentials);
+            this.isLoading = false;
+            console.log(localStorage.getItem('auth_token'));
         },
     }
 };
