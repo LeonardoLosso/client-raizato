@@ -3,10 +3,10 @@ import { toast } from 'vue3-toastify';
 
 axios.interceptors.response.use(
     (response) => {
-        if (response && response.data && response.data.data) {
-            return response.data.data; 
+        if (response && response.data) {
+            return response.data;
         }
-        return response;  
+        return response;
     },
     (error) => {
         if (error.response) {
