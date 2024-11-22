@@ -1,51 +1,84 @@
-<template>
-    <div class="home-container">
-        <div class="table-section">
-            <GenericTable :title="'Produtos com Estoque Baixo'" :headers="['Produto', 'Estoque', 'Prioridade']"
-                :data="lowStockData" />
-            <GenericTable :title="'Produtos Próximos do Vencimento'"
-                :headers="['Produto', 'Data de Validade', 'Quantidade']" :data="expiringStockData" />
-        </div>
-    </div>
-</template>
-
 <script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue';
 import GenericTable from '@/components/shared/GenericTable.vue';
-import { defineComponent } from 'vue';
+import { Product } from '@/core/types/products';
+import { getProducts } from '@/core/http/services/productService';
 
 export default defineComponent({
     name: 'HomePage',
     components: {
         GenericTable
     },
-    data() {
+    setup() {
+        const lowStockData = ref<Product[]>([]);
+        const expiringStockData = ref<Product[]>([]);
+
+        const headerToPropertyMap = {
+            'Produto': 'name',
+            'Data de Validade': 'expiryDate',
+            'Estoque': 'stock',
+            'Minimo': 'minStock',
+            'Categoria': 'categoryName',
+            'Preço Custo': 'costPrice',
+            'Preço Venda': 'salePrice',
+            'Código': 'code',
+            'Fornecedor': 'fornecedorName',
+            'Descrição': 'description'
+        };
+
+        const fetchProducts = async () => {
+            try {
+                lowStockData.value = await getProducts({ low_stock: true });
+                expiringStockData.value = await getProducts({});
+            } catch (error) {
+                console.error('Erro ao carregar produtos', error);
+            }
+        };
+
+        onMounted(() => {
+            fetchProducts();
+        });
+
         return {
-            lowStockData: [
-                ['Produto 1', '10', 'Alta'],
-                ['Produto 2', '5', 'Média'],
-                ['Produto 3', '2', 'Baixa']
-            ],
-            expiringStockData: [
-                ['Produto A', '2024-12-01', '50'],
-                ['Produto B', '2024-11-25', '30'],
-                ['Produto C', '2024-11-30', '20']
-            ]
+            lowStockData,
+            expiringStockData,
+            headerToPropertyMap
         };
     }
 });
 </script>
 
+<template>
+    <div class="home-container">
+        <div class="table-section">
+            <GenericTable :title="'Produtos com Estoque Baixo'"
+                :headers="['Produto', 'Estoque', 'Minimo', 'Categoria', 'Preço Custo', 'Preço Venda']"
+                :data="lowStockData" :headerToPropertyMap="headerToPropertyMap" />
+            <GenericTable :title="'Produtos Próximos do Vencimento'"
+                :headers="['Produto', 'Data de Validade', 'Estoque', 'Categoria', 'Preço Custo', 'Preço Venda']"
+                :data="expiringStockData" :headerToPropertyMap="headerToPropertyMap" />
+        </div>
+    </div>
+</template>
+
 <style scoped>
-.home-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #000000;
+}
+
+h3 {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .table-section {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
+    justify-content: space-around;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
 }
 </style>

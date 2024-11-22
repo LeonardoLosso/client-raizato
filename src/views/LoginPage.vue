@@ -27,7 +27,8 @@ export default {
                 password: this.password,
             };
 
-            await login(credentials, this.$router).then(() => this.isLoading = false);
+            const redirectTo = this.$route.query.redirectTo || '/';
+            await login(credentials, this.$router, redirectTo).then(() => this.isLoading = false);
         },
     }
 };
@@ -36,7 +37,7 @@ export default {
 <template>
     <div class="login-container">
         <form @submit.prevent="handleSubmit" class="login-form">
-            <h2>Login</h2>
+            <h2>{{ 'Login' }}</h2>
             <InputField label="Usuário" id="email" v-model="email" placeholder="Digite seu nome de usuário"
                 autocomplete="email" />
             <InputPassword label="Senha" id="password" v-model="password" placeholder="Digite sua senha" />

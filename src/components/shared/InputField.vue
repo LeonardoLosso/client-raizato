@@ -1,11 +1,3 @@
-<template>
-  <div class="input-field">
-    <label :for="id">{{ label }}</label>
-    <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)"
-      :autocomplete="autocomplete" />
-  </div>
-</template>
-
 <script>
 export default {
   name: "InputField",
@@ -42,6 +34,14 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="input-field">
+    <label :for="id">{{ label }}</label>
+    <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)"
+      :autocomplete="autocomplete" />
+  </div>
+</template>
 
 <style scoped>
 .input-field {

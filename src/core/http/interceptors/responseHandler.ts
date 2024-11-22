@@ -11,11 +11,11 @@ axios.interceptors.response.use(
     (error) => {
         if (error.response) {
             const { message } = error.response.data;
-            toast.error(message || 'Erro desconhecido!');
-        } else if (error.request) {
-            toast.error('Sem resposta do servidor!');
-        } else {
-            toast.error('Erro ao configurar a requisição!');
+            return toast.error(message || 'Erro desconhecido!');
         }
+        if (error.request)
+            return toast.error('Sem resposta do servidor!');
+
+        return toast.error('Erro ao configurar a requisição!');
     }
 );

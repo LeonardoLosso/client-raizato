@@ -1,14 +1,3 @@
-<template>
-    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading">
-        <template v-if="loading">
-            <span class="spinner"></span>
-        </template>
-        <template v-else>
-            <slot></slot>
-        </template>
-    </button>
-</template>
-
 <script>
 export default {
     name: "ButtonComponent",
@@ -31,6 +20,17 @@ export default {
     }
 };
 </script>
+
+<template>
+    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading">
+        <template v-if="loading">
+            <span class="spinner"></span>
+        </template>
+        <template v-else>
+            <slot></slot>
+        </template>
+    </button>
+</template>
 
 <style scoped>
 .btn {
