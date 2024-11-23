@@ -1,11 +1,13 @@
-<script>
-import InputPassword from "@/components/auth/InputPassword.vue";
-import InputField from "../shared/InputField.vue";
-import ButtonComponent from "../shared/ButtonComponent.vue";
-import { isAdmin, isAdminOrManager } from "@/core/utils/functions";
+<script lang="ts">
+import { defineComponent, ref, computed, watch } from 'vue';
+import InputPassword from '@/components/auth/InputPassword.vue';
+import InputField from '../shared/InputField.vue';
+import ButtonComponent from '../shared/ButtonComponent.vue';
+import { isAdmin, isAdminOrManager } from '@/core/utils/functions';
+import { User } from '@/core/types/auth';
 
-export default {
-    name: "UserForm",
+export default defineComponent({
+    name: 'UserForm',
     components: {
         InputPassword,
         InputField,
@@ -13,98 +15,102 @@ export default {
     },
     props: {
         user: {
-            type: Object,
+            type: Object as () => User,
             required: false,
             default: () => ({
                 id: null,
-                firstName: "",
-                lastName: "",
-                phone: "",
-                email: "",
-                role: "",
+                firstName: '',
+                lastName: '',
+                phone: '',
+                email: '',
+                role: ''
             }),
         },
-        isEditing: { type: Boolean, default: false, },
-        isSaving: { type: Boolean, default: false, },
-        isDeleting: { type: Boolean, default: false, },
+        isEditing: { type: Boolean, default: false },
+        isSaving: { type: Boolean, default: false },
+        isDeleting: { type: Boolean, default: false }
     },
-    data() {
-        return {
-            formData: { ...this.user },
-            password: "",
-            confirmPassword: "",
-            errorMessages: [],
-        };
-    },
-    computed: {
-        isPasswordRequired() {
-            return !this.isEditing;
-        },
-    },
-    methods: {
-        validateForm() {
-            this.errorMessages = [];
+    setup(props, { emit }) {
+        // Estado
+        const formData = ref({ ...props.user });
+        const password = ref('');
+        const passwordConfirmation = ref('');
+        const errorMessages = ref<string[]>([]);
 
-            if (this.isPasswordRequired || this.password) {
+        // Computed
+        const isPasswordRequired = computed(() => !props.isEditing);
+
+        // Funções
+        const validateForm = (): boolean => {
+            errorMessages.value = [];
+
+            if (isPasswordRequired.value || password.value) {
                 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-                if (!this.password) {
-                    this.errorMessages.push("Senha é obrigatória.");
-                } else if (!passwordRegex.test(this.password)) {
-                    this.errorMessages.push(
-                        "A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número."
+                if (!password.value) {
+                    errorMessages.value.push('Senha é obrigatória.');
+                } else if (!passwordRegex.test(password.value)) {
+                    errorMessages.value.push(
+                        'A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula e um número.'
                     );
                 }
 
-                if (this.password !== this.confirmPassword) {
-                    this.errorMessages.push("As senhas não coincidem.");
+                if (password.value !== passwordConfirmation.value) {
+                    errorMessages.value.push('As senhas não coincidem.');
                 }
             }
 
-            return this.errorMessages.length === 0;
-        },
-        submitForm() {
-            if (this.validateForm()) {
-                const formData = { ...this.formData };
-                if (this.password) {
-                    formData.password = this.password;
-                    formData.confirmPassword = this.confirmPassword;
-                }
-                this.$emit("submit", formData);
-            }
-        },
-        cancel() {
-            this.$emit("cancel");
-        },
-        deleteUser() {
-            console.log('lala')
+            return errorMessages.value.length === 0;
+        };
 
-            if (confirm("Tem certeza de que deseja excluir este usuário?")) {
-                this.$emit("delete", this.formData.id);
+        const submitForm = () => {
+            if (validateForm()) {
+                const form: User = { ...formData.value };
+                if (password.value) {
+                    form.password = password.value;
+                    form.passwordConfirmation = passwordConfirmation.value;
+                }
+                emit('saveUser', form);
             }
-        },
-        isUser() {
-            return !isAdminOrManager();
-        }
-        , isManager() {
-            return !isAdmin();
-        }
-    },
-    watch: {
-        user: {
-            deep: true,
-            handler(newVal) {
-                this.formData = { ...newVal };
-            },
-        },
-    },
-};
+        };
+
+        const cancel = () => {
+            emit('cancel');
+        };
+
+        const deleteUser = () => {
+            if (confirm('Tem certeza de que deseja excluir este usuário?')) {
+                emit('delete', formData.value.id);
+            }
+        };
+
+        const isUser = computed(() => !isAdminOrManager());
+        const isManager = computed(() => !isAdmin());
+
+        watch(() => props.user, (newVal) => {
+            formData.value = { ...newVal };
+        }, { deep: true });
+
+        return {
+            formData,
+            password,
+            passwordConfirmation,
+            errorMessages,
+            isPasswordRequired,
+            submitForm,
+            cancel,
+            deleteUser,
+            isUser,
+            isManager
+        };
+    }
+});
 </script>
 
 <template>
     <div class="container">
         <h1>{{ isEditing ? "Editar Perfil" : "Novo Usuário" }}</h1>
-        <form @submit.prevent>
+        <form @submit.prevent="submitForm">
             <div class="form-group">
                 <InputField label="Primeiro Nome" id="firstName" v-model="formData.firstName"
                     placeholder="Nome do cadastro" autocomplete="given-name" required />
@@ -124,9 +130,9 @@ export default {
                 </div>
                 <div class="form-group">
                     <label for="role">Papel</label>
-                    <select :disabled="isUser()" id="role" v-model="formData.role" required>
+                    <select :disabled="isUser" id="role" v-model="formData.role" required>
                         <option value="" disabled>Selecione o Papel</option>
-                        <option v-if="!isManager()" value="admin">Administrador</option>
+                        <option v-if="!isManager" value="admin">Administrador</option>
                         <option value="manager">Gerente</option>
                         <option value="user">Usuário</option>
                     </select>
@@ -139,9 +145,9 @@ export default {
                         placeholder="Digite a senha" :required="!isEditing" />
                 </div>
                 <div class="form-group">
-                    <InputPassword id="confirmPassword" label="Confirmar Senha" v-model="confirmPassword"
+                    <InputPassword id="passwordConfirmation" label="Confirmar Senha" v-model="passwordConfirmation"
                         placeholder="Confirme a senha" :required="password?.length > 0"
-                        :disabled="!password?.length > 0" />
+                        :disabled="!(password?.length > 0)" />
                 </div>
             </div>
 
@@ -160,7 +166,7 @@ export default {
                     <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel" />
                 </div>
 
-                <ButtonComponent v-if="isEditing && !isUser()" :loading="isDeleting" type="delete" label="Excluir"
+                <ButtonComponent v-if="isEditing && !isUser" :loading="isDeleting" type="delete" label="Excluir"
                     @clickEvent="deleteUser" />
             </div>
         </form>
