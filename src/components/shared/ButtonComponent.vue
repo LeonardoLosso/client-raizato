@@ -2,9 +2,14 @@
 export default {
     name: "ButtonComponent",
     props: {
+        label: String,
         type: {
             type: String,
             default: "primary"
+        },
+        action: {
+            type: Function,
+            required: true
         },
         loading: {
             type: Boolean,
@@ -14,7 +19,7 @@ export default {
     methods: {
         handleClick() {
             if (!this.loading) {
-                this.$emit("click");
+                this.action();
             }
         }
     }
@@ -27,38 +32,12 @@ export default {
             <span class="spinner"></span>
         </template>
         <template v-else>
-            <slot></slot>
+            <slot>{{ label }}</slot>
         </template>
     </button>
 </template>
 
 <style scoped>
-.btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn.primary {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn.primary:hover {
-    background-color: #0056b3;
-}
-
-.btn:disabled {
-    background-color: #a3a3a3;
-    cursor: not-allowed;
-}
-
 .spinner {
     border: 2px solid #f3f3f3;
     border-top: 2px solid #fff;

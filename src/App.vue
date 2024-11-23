@@ -8,16 +8,38 @@ export default {
   },
   computed: {
     showHeader() {
-      return this.$route.name !== 'Login';
+      return this.$route.name !== 'Login' && this.$route.name !== 'NotFound';
     }
   },
+  mounted() {
+    this.updateHeight();
+    window.addEventListener('resize', this.updateHeight);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.updateHeight);
+  },
+  methods: {
+    updateHeight() {
+      const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+      this.$refs.centeredContainer.style.height = `calc(100vh - ${headerHeight}px)`;
+    }
+  }
 }
 </script>
 
 <template>
   <ToastifyContainer />
   <HeaderComponent v-if="showHeader" />
-  <router-view />
+  <div ref="centeredContainer" class="centered-container">
+    <router-view />
+  </div>
 </template>
 
-<style></style>
+<style scoped>
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+</style>

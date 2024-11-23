@@ -1,0 +1,34 @@
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #e0e0e0;
+}
+
+.form-errors ul {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    color: #721c24;
+    list-style-type: none;
+}
+
+.form-errors li {
+    margin: 5px 0;
+}
+
+label {
+    font-weight: bold;
+}

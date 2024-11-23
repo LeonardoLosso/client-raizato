@@ -22,6 +22,10 @@ export default {
       type: String,
       default: ""
     },
+    required: {
+      Boolean,
+      default: false
+    },
     autocomplete: {
       type: String,
       default: ""
@@ -39,24 +43,12 @@ export default {
   <div class="input-field">
     <label :for="id">{{ label }}</label>
     <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)"
-      :autocomplete="autocomplete" />
+      :autocomplete="autocomplete" :required="required" />
   </div>
 </template>
 
 <style scoped>
 .input-field {
   margin-bottom: 15px;
-}
-
-.input-field input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.input-field label {
-  font-weight: bold;
 }
 </style>

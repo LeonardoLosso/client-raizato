@@ -1,18 +1,3 @@
-<template>
-    <div class="input-password">
-        <label :for="id">{{ label }}</label>
-        <div class="input-wrapper">
-            <input :type="inputType" :id="id" :value="modelValue" @input="updateValue" :placeholder="placeholder"
-                autocomplete="current-password" />
-            <button type="button" @click="togglePasswordVisibility" class="toggle-password">
-                <span class="material-icons">
-                    {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}
-                </span>
-            </button>
-        </div>
-    </div>
-</template>
-
 <script>
 export default {
     name: "InputPassword",
@@ -21,6 +6,14 @@ export default {
         id: String,
         placeholder: String,
         modelValue: String,
+        required: {
+            Boolean,
+            default: true
+        },
+        disabled: {
+            Boolean,
+            default: false
+        },
     },
     data() {
         return {
@@ -43,19 +36,26 @@ export default {
 };
 </script>
 
+<template>
+    <div class="input-password">
+        <label :for="id">{{ label }}</label>
+        <div class="input-wrapper">
+            <input :type="inputType" :id="id" :value="modelValue" @input="updateValue" :placeholder="placeholder"
+                autocomplete="current-password" :required="required" :disabled="disabled"/>
+            <button v-if="!disabled" type="button" @click="togglePasswordVisibility" class="toggle-password">
+                <span class="material-icons">
+                    {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}
+                </span>
+            </button>
+        </div>
+    </div>
+</template>
+
 <style scoped>
 .input-wrapper {
     display: flex;
     align-items: center;
     position: relative;
-}
-
-input {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 button.toggle-password {

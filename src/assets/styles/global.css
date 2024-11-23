@@ -1,3 +1,6 @@
+@import url('input-default.css');
+@import url('button-default.css');
+
 *,
 *::before,
 *::after {
@@ -18,34 +21,18 @@ a {
     color: inherit;
 }
 
-button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border-radius: 5px;
-}
-
-input,
-textarea {
-    border: 1px solid #ccc;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 4px;
-}
-
 :focus {
     outline: none;
 }
 
 .container {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1,
@@ -60,4 +47,14 @@ h6 {
 
 p {
     margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 1.8em;
+    color: #333;
 }

@@ -3,18 +3,23 @@ import { createRouter, createWebHistory } from 'vue-router';
 import LoginPage from '@/views/LoginPage.vue';
 import HomePage from '@/views/HomePage.vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
+import ProfilePage from '@/views/ProfilePage.vue';
 
 const routes = [
-
-    {
-        path: '/',
-        name: 'Home',
-        component: HomePage
-    },
     {
         path: '/auth/login',
         name: 'Login',
         component: LoginPage
+    },
+    {
+        path: '/auth/profile/:id',
+        name: 'Profile',
+        component: ProfilePage
+    },
+    {
+        path: '/',
+        name: 'Home',
+        component: HomePage
     },
     {
         path: '/:catchAll(.*)',
