@@ -25,7 +25,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="table-container">
+    <div class="table-container container">
         <h3>{{ title }}</h3>
         <table>
             <thead>
@@ -46,14 +46,11 @@ export default defineComponent({
 
 <style>
 .table-container {
-    margin: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    margin: 20px !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(100vh - 120px);
+    max-height: calc(100vh - 200px);
     overflow: auto;
 }
 
@@ -65,7 +62,6 @@ table {
 }
 
 thead {
-    background-color: #f4f4f4;
     position: sticky;
     top: 0;
     z-index: 1;

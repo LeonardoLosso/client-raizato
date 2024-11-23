@@ -49,8 +49,8 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="home-container">
-        <div class="table-section">
+    <div>
+        <div class="centered-container">
             <GenericTable :title="'Produtos com Estoque Baixo'"
                 :headers="['Produto', 'Estoque', 'Minimo', 'Categoria', 'Preço Custo', 'Preço Venda']"
                 :data="lowStockData" :headerToPropertyMap="headerToPropertyMap" />
@@ -62,23 +62,9 @@ export default defineComponent({
 </template>
 
 <style scoped>
-th,
-td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #000000;
-}
-
-h3 {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-.table-section {
+.centered-container {
     display: flex;
     justify-content: space-around;
     gap: 10px;
-    width: 100%;
-    height: 100%;
 }
 </style>

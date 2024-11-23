@@ -35,28 +35,18 @@ export default {
 </script>
 
 <template>
-    <div class="login-container">
+    <div class="centered-container">
         <form @submit.prevent="handleSubmit" class="login-form">
             <h2>{{ 'Login' }}</h2>
-            <InputField label="Usuário" id="email" v-model="email" placeholder="Digite seu nome de usuário"
-                autocomplete="email" />
-            <InputPassword label="Senha" id="password" v-model="password" placeholder="Digite sua senha" />
-            <ButtonComponent :loading="isLoading" type="primary">
-                Entrar
-            </ButtonComponent>
+            <InputField label="Usuário" id="email" v-model="email" placeholder="Digite seu email" autocomplete="email"
+                required />
+            <InputPassword label="Senha" id="password" v-model="password" placeholder="Digite sua senha" required />
+            <ButtonComponent :loading="isLoading" type="primary" label="Entrar" />
         </form>
     </div>
 </template>
 
 <style scoped>
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f7fc;
-}
-
 .login-form {
     width: 100%;
     max-width: 400px;
