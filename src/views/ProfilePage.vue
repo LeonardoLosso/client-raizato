@@ -10,7 +10,9 @@ export default {
     data() {
         return {
             user: null,
-            error: null
+            error: null,
+            isSaving: false,
+            isDeleting: false
         };
     },
     computed: {
@@ -30,6 +32,15 @@ export default {
                 console.error('Erro ao carregar o perfil:', err);
                 this.error = 'Erro ao carregar o perfil do usuário.';
             }
+        },
+        handleSubmit() {
+
+        },
+        handleCancel() {
+
+        },
+        handleDelete() {
+
         }
     }
 };
@@ -37,9 +48,9 @@ export default {
 
 <template>
     <div class="centered-container">
-        <UserForm v-if="user" :user="user" :isEditing="true" @submit="handleSubmit" @cancel="handleCancel" />
+        <UserForm v-if="user" :user="user" :isEditing="true" @submit="handleSubmit" @cancel="handleCancel"
+            @delete="handleDelete" :isDeleting="isDeleting" :isSaving="isSaving" />
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

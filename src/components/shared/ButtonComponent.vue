@@ -7,10 +7,6 @@ export default {
             type: String,
             default: "primary"
         },
-        action: {
-            type: Function,
-            required: true
-        },
         loading: {
             type: Boolean,
             default: false
@@ -19,7 +15,7 @@ export default {
     methods: {
         handleClick() {
             if (!this.loading) {
-                this.action();
+                this.$emit("clickEvent");
             }
         }
     }

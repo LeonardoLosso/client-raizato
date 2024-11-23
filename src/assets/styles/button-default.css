@@ -26,15 +26,22 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.btn.button {
+.btn {
     border: none;
-}
-
-.btn.button {
     background-color: #6c757d;
     color: #fff;
 }
 
-.btn.button:hover {
+.btn:hover {
     background-color: #5a6268;
+}
+
+.btn.delete {
+    border: none;
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn.delete:hover {
+    background-color: #c82333;
 }

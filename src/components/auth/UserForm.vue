@@ -24,7 +24,9 @@ export default {
                 role: "",
             }),
         },
-        isEditing: { type: Boolean, default: false, }
+        isEditing: { type: Boolean, default: false, },
+        isSaving: { type: Boolean, default: false, },
+        isDeleting: { type: Boolean, default: false, },
     },
     data() {
         return {
@@ -32,7 +34,6 @@ export default {
             password: "",
             confirmPassword: "",
             errorMessages: [],
-            isLoading: false
         };
     },
     computed: {
@@ -76,6 +77,8 @@ export default {
             this.$emit("cancel");
         },
         deleteUser() {
+            console.log('lala')
+
             if (confirm("Tem certeza de que deseja excluir este usuário?")) {
                 this.$emit("delete", this.formData.id);
             }
@@ -101,7 +104,7 @@ export default {
 <template>
     <div class="container">
         <h1>{{ isEditing ? "Editar Perfil" : "Novo Usuário" }}</h1>
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent>
             <div class="form-group">
                 <InputField label="Primeiro Nome" id="firstName" v-model="formData.firstName"
                     placeholder="Nome do cadastro" autocomplete="given-name" required />
@@ -151,12 +154,14 @@ export default {
             </div>
 
             <div class="form-actions">
-                <ButtonComponent :loading="isLoading" type="primary" label="Salvar" :action="submitForm"/>
+                <div class="wrap-btn">
+                    <ButtonComponent :loading="isSaving" type="primary" label="Salvar" @clickEvent="submitForm" />
 
-                <ButtonComponent type="button" class="btn-cancel" label="Cancelar" :action="cancel" />
+                    <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel" />
+                </div>
 
-                <ButtonComponent v-if="isEditing && !isUser()" :loading="isLoading" type="button" class="btn-delete"
-                    label="Excluir" :action="deleteUser" />
+                <ButtonComponent v-if="isEditing && !isUser()" :loading="isDeleting" type="delete" label="Excluir"
+                    @clickEvent="deleteUser" />
             </div>
         </form>
     </div>
@@ -193,5 +198,11 @@ export default {
     justify-content: space-between;
     gap: 10px;
     margin-top: 30px;
+}
+
+.wrap-btn {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
 }
 </style>
