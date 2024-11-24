@@ -10,6 +10,10 @@ export default {
         loading: {
             type: Boolean,
             default: false
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     methods: {
@@ -23,7 +27,7 @@ export default {
 </script>
 
 <template>
-    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading">
+    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading || disabled">
         <template v-if="loading">
             <span class="spinner"></span>
         </template>

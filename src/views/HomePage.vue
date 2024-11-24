@@ -15,12 +15,12 @@ export default defineComponent({
 
         const headerToPropertyMap = {
             'Produto': 'name',
-            'Data de Validade': 'expiryDate',
+            'Validade': 'expiryDate',
             'Estoque': 'stock',
             'Minimo': 'minStock',
             'Categoria': 'categoryName',
-            'Preço Custo': 'costPrice',
-            'Preço Venda': 'salePrice',
+            'Custo': 'costPrice',
+            'Venda': 'salePrice',
             'Código': 'code',
             'Fornecedor': 'fornecedorName',
             'Descrição': 'description'
@@ -52,11 +52,11 @@ export default defineComponent({
     <div>
         <div class="centered-container">
             <GenericTable :title="'Produtos com Estoque Baixo'"
-                :headers="['Produto', 'Estoque', 'Minimo', 'Categoria', 'Preço Custo', 'Preço Venda']"
-                :data="lowStockData" :headerToPropertyMap="headerToPropertyMap" />
+                :headers="['Produto', 'Estoque', 'Minimo', 'Categoria', 'Custo', 'Venda']" :data="lowStockData"
+                :headerToPropertyMap="headerToPropertyMap" />
             <GenericTable :title="'Produtos Próximos do Vencimento'"
-                :headers="['Produto', 'Data de Validade', 'Estoque', 'Categoria', 'Preço Custo', 'Preço Venda']"
-                :data="expiringStockData" :headerToPropertyMap="headerToPropertyMap" />
+                :headers="['Produto', 'Validade', 'Estoque', 'Categoria', 'Custo', 'Venda']" :data="expiringStockData"
+                :headerToPropertyMap="headerToPropertyMap" />
         </div>
     </div>
 </template>
@@ -66,5 +66,17 @@ export default defineComponent({
     display: flex;
     justify-content: space-around;
     gap: 10px;
+    flex-wrap: wrap;
+}
+
+.centered-container>* {
+    flex: 1 1 45%;
+    min-width: 300px;
+}
+
+@media (max-width: 768px) {
+    .centered-container>* {
+        flex: 1 1 100%;
+    }
 }
 </style>

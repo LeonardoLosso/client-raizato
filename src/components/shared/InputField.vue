@@ -1,51 +1,57 @@
-<script>
-export default {
-  name: "InputField",
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  name: 'InputField',
   props: {
     label: {
-      type: String,
+      type: String as PropType<string>,
       required: true
     },
     id: {
-      type: String,
+      type: String as PropType<string>,
       required: true
     },
     type: {
-      type: String,
-      default: "text"
+      type: String as PropType<string>,
+      default: 'text'
     },
     placeholder: {
-      type: String,
-      default: ""
+      type: String as PropType<string>,
+      default: ''
     },
     modelValue: {
-      type: String,
-      default: ""
+      type: String as PropType<string>,
+      default: ''
     },
     required: {
-      Boolean,
+      type: Boolean,
       default: false
     },
     autocomplete: {
-      type: String,
-      default: ""
+      type: String as PropType<string>,
+      default: ''
     }
   },
   methods: {
-    updateValue(event) {
-      this.$emit("update:modelValue", event.target.value);
+    updateValue(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.$emit('update:modelValue', target.value);
     }
   }
-};
+});
 </script>
+
 
 <template>
   <div class="input-field">
     <label :for="id">{{ label }}</label>
+    <span v-if="required" class="required-indicator">*</span>
     <input :type="type" :id="id" :placeholder="placeholder" :value="modelValue" @input="updateValue($event)"
       :autocomplete="autocomplete" :required="required" />
   </div>
 </template>
+
 
 <style scoped>
 .input-field {

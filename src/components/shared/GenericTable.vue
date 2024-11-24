@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
     name: 'GenericTable',
@@ -20,12 +20,31 @@ export default defineComponent({
             type: Object as PropType<Record<string, string>>,
             required: true
         }
+    },
+    emits: ['rowClicked', 'rowDoubleClicked'],
+    setup(_, { emit }) {
+        const selectedRowIndex = ref<number | null>(null);
+
+        const handleClick = (row: any, index: number) => {
+            selectedRowIndex.value = index;
+            emit('rowClicked', row);
+        };
+
+        const handleDoubleClick = (row: any) => {
+            emit('rowDoubleClicked', row);
+        };
+
+        return {
+            selectedRowIndex,
+            handleClick,
+            handleDoubleClick
+        };
     }
 });
 </script>
 
 <template>
-    <div class="table-container container">
+    <div class="container">
         <h3>{{ title }}</h3>
         <table>
             <thead>
@@ -34,8 +53,9 @@ export default defineComponent({
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row, index) in data" :key="index">
-                    <td v-for="(header, colIndex) in headers" :key="colIndex">
+                <tr v-for="(row, index) in data" :key="index" :class="{ selected: index === selectedRowIndex }"
+                    @click="handleClick(row, index)" @dblclick="handleDoubleClick(row)">
+                    <td v-for="(header, colIndex) in headers" :key="colIndex" :class="header.toLowerCase()">
                         {{ row[headerToPropertyMap[header]] }}
                     </td>
                 </tr>
@@ -44,9 +64,10 @@ export default defineComponent({
     </div>
 </template>
 
-<style>
-.table-container {
+<style scoped>
+.container {
     margin: 20px !important;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -58,10 +79,11 @@ table {
     width: 100%;
     height: 100%;
     border-collapse: collapse;
-    overflow-y: auto;
+    table-layout: fixed;
 }
 
 thead {
+    background-color: #f4f4f4;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -72,6 +94,7 @@ td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    word-wrap: break-word;
 }
 
 h3 {
@@ -83,7 +106,7 @@ h3 {
     padding: 10px 0;
 }
 
-.table-container table {
+.container table {
     height: 100%;
     overflow: auto;
     display: block;
@@ -95,5 +118,17 @@ tbody tr:nth-child(odd) {
 
 tbody tr:nth-child(even) {
     background-color: #ffffff;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
+tbody tr.selected {
+    background-color: #e0f7fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f8ff;
 }
 </style>

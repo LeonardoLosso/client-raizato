@@ -39,9 +39,11 @@ export default {
 <template>
     <div class="input-password">
         <label :for="id">{{ label }}</label>
+        <span v-if="required" class="required-indicator">*</span>
+
         <div class="input-wrapper">
             <input :type="inputType" :id="id" :value="modelValue" @input="updateValue" :placeholder="placeholder"
-                autocomplete="current-password" :required="required" :disabled="disabled"/>
+                autocomplete="current-password" :required="required" :disabled="disabled" />
             <button v-if="!disabled" type="button" @click="togglePasswordVisibility" class="toggle-password">
                 <span class="material-icons">
                     {{ isPasswordVisible ? 'visibility_off' : 'visibility' }}
