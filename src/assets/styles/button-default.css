@@ -30,6 +30,7 @@ button:disabled {
     border: none;
     background-color: #6c757d;
     color: #fff;
+    min-width: 115px;
 }
 
 .btn:hover {
