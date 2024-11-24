@@ -1,8 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { toast } from 'vue3-toastify';
+
 import UserForm from '@/components/auth/UserForm.vue';
-import { getProfile, updateUser } from '@/core/http/services/authService';
+import { deleteUser, getProfile, logout, updateUser } from '@/core/http/services/authService';
 import { User } from '@/core/types/auth';
 
 export default defineComponent({
@@ -28,21 +30,26 @@ export default defineComponent({
         };
 
         const handleSubmit = async (formData: User) => {
-            // eslint-disable-next-line
-            debugger
             isSaving.value = true;
             if (!(JSON.stringify(user.value) === JSON.stringify(formData))) {
-                await updateUser(formData);
+                const res = await updateUser(formData);
+                if (res)
+                    toast.success('Usuário editado com sucesso!');
             }
             isSaving.value = false;
         };
 
         const handleCancel = () => {
-            router.go(-1);
+            router.back();
         };
 
-        const handleDelete = () => {
+        const handleDelete = async (id: number) => {
             isDeleting.value = true;
+            const res = await deleteUser(id);
+            if (res) {
+                toast.success('Usuário excluido com sucesso!');
+                logout(router);
+            }
             isDeleting.value = false;
         };
 

@@ -31,18 +31,28 @@ export default defineComponent({
         isDeleting: { type: Boolean, default: false }
     },
     setup(props, { emit }) {
-        // Estado
         const formData = ref({ ...props.user });
         const password = ref('');
         const passwordConfirmation = ref('');
         const errorMessages = ref<string[]>([]);
 
-        // Computed
         const isPasswordRequired = computed(() => !props.isEditing);
 
-        // Funções
         const validateForm = (): boolean => {
             errorMessages.value = [];
+
+            if (!formData.value.firstName) {
+                errorMessages.value.push('Primeiro nome é obrigatório.');
+            }
+            if (!formData.value.lastName) {
+                errorMessages.value.push('Sobrenome é obrigatório.');
+            }
+            if (!formData.value.email) {
+                errorMessages.value.push('Email é obrigatório.');
+            }
+            if (!formData.value.role) {
+                errorMessages.value.push('Papel é obrigatório.');
+            }
 
             if (isPasswordRequired.value || password.value) {
                 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
@@ -85,7 +95,7 @@ export default defineComponent({
         };
 
         const isUser = computed(() => !isAdminOrManager());
-        const isManager = computed(() => !isAdmin());
+        const isManager = computed(() => !isAdmin() && isAdminOrManager());
 
         watch(() => props.user, (newVal) => {
             formData.value = { ...newVal };
@@ -106,6 +116,7 @@ export default defineComponent({
     }
 });
 </script>
+
 
 <template>
     <div class="container">
@@ -130,6 +141,7 @@ export default defineComponent({
                 </div>
                 <div class="form-group">
                     <label for="role">Papel</label>
+                    <span class="required-indicator">*</span>
                     <select :disabled="isUser" id="role" v-model="formData.role" required>
                         <option value="" disabled>Selecione o Papel</option>
                         <option v-if="!isManager" value="admin">Administrador</option>
@@ -142,7 +154,7 @@ export default defineComponent({
             <div class="container-group">
                 <div class="form-group">
                     <InputPassword id="password" :label="isEditing ? 'Nova Senha' : 'Senha'" v-model="password"
-                        placeholder="Digite a senha" :required="!isEditing" />
+                        placeholder="Digite a senha" :required="!isEditing || password?.length > 0" />
                 </div>
                 <div class="form-group">
                     <InputPassword id="passwordConfirmation" label="Confirmar Senha" v-model="passwordConfirmation"
@@ -161,13 +173,13 @@ export default defineComponent({
 
             <div class="form-actions">
                 <div class="wrap-btn">
-                    <ButtonComponent :loading="isSaving" type="primary" label="Salvar" @clickEvent="submitForm" />
+                    <ButtonComponent :loading="isSaving" type="primary" label="Salvar" @clickEvent="submitForm" :disabled="isSaving || isDeleting"/>
 
-                    <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel" />
+                    <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel" :disabled="isSaving || isDeleting"/>
                 </div>
 
                 <ButtonComponent v-if="isEditing && !isUser" :loading="isDeleting" type="delete" label="Excluir"
-                    @clickEvent="deleteUser" />
+                    @clickEvent="deleteUser" :disabled="isSaving || isDeleting"/>
             </div>
         </form>
     </div>
