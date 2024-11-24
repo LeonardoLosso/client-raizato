@@ -25,14 +25,23 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
     (response) => {
-        if (response && response.data) {
-            return response.data;
+        if (response) {
+
+            const method = response.config.method?.toLowerCase();
+
+            if (method && ['post', 'put', 'delete'].includes(method)) {
+                const { message } = response.data;
+                toast.success(message || 'Operação realizada com sucesso!');
+            }
+
+            if (response.data) return response.data;
+
+            return response;
         }
-        return response;
     },
     (error) => {
         if (error.response) {
-            const message  = error.response.data?.errors[0]?? error.response.data?.message;
+            const message = error.response.data?.errors[0] ?? error.response.data?.message;
             toast.error(message || 'Erro desconhecido!');
         } else if (error.request) {
             toast.error('Sem resposta do servidor!');

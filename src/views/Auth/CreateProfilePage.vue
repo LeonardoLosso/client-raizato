@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { toast } from 'vue3-toastify';
 
 import UserForm from '@/components/auth/UserForm.vue';
 import { User } from '@/core/types/auth';
@@ -23,7 +22,6 @@ export default defineComponent({
             isSaving.value = true;
             const res = await createUser(formData);
             if (res) {
-                toast.success('Usuário criado com sucesso!');
                 router.push({ name: 'Users' });
             }
             isSaving.value = false;

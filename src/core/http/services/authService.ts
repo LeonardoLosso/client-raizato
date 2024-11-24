@@ -38,28 +38,26 @@ export const getProfile = async (id: string | number = 0) => {
         const response = await api.get(BASE_URL + id);
         return response.data;
     } catch (error) {
-        console.error('Error fetching profile:', error);
         return false;
 
     }
 };
 
-export const getUsers = async () => {
+export const listUsers = async () => {
     try {
         const response = await api.get(BASE_URL);
 
         return response.data;
     } catch (error) {
-        console.error('Error fetching profiles:', error);
         return false;
     }
 };
+
 export const createUser = async (user: User) => {
     try {
         await api.post(BASE_URL, user);
         return true;
     } catch (error) {
-        console.error('Erro ao criar o usuário:', error);
         return false;
     }
 };
@@ -69,7 +67,6 @@ export const updateUser = async (user: User) => {
         await api.put(BASE_URL + user.id, user);
         return true;
     } catch (error) {
-        console.error('Erro ao atualizar o usuário:', error);
         return false;
     }
 };
@@ -79,7 +76,6 @@ export const deleteUser = async (id: number) => {
         await api.delete(BASE_URL + id);
         return true;
     } catch (error) {
-        console.error('Error deleting user:', error);
         return false;
     }
 };

@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { toast } from 'vue3-toastify';
 
 import UserForm from '@/components/auth/UserForm.vue';
 import { deleteUser, getProfile, logout, updateUser } from '@/core/http/services/authService';
@@ -32,9 +31,7 @@ export default defineComponent({
         const handleSubmit = async (formData: User) => {
             isSaving.value = true;
             if (!(JSON.stringify(user.value) === JSON.stringify(formData))) {
-                const res = await updateUser(formData);
-                if (res)
-                    toast.success('Usuário editado com sucesso!');
+                await updateUser(formData);
             }
             isSaving.value = false;
         };
@@ -46,10 +43,7 @@ export default defineComponent({
         const handleDelete = async (id: number) => {
             isDeleting.value = true;
             const res = await deleteUser(id);
-            if (res) {
-                toast.success('Usuário excluido com sucesso!');
-                logout(router);
-            }
+            if (res) logout(router);
             isDeleting.value = false;
         };
 

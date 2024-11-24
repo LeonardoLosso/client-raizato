@@ -2,7 +2,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 
 import GenericTable from '@/components/shared/GenericTable.vue';
-import { getUsers } from '@/core/http/services/authService';
+import { listUsers } from '@/core/http/services/authService';
 import { User } from '@/core/types/auth';
 import router from '@/core/router';
 import { encodeBase64 } from '@/core/utils/functions';
@@ -21,7 +21,7 @@ export default defineComponent({
 
         const fetchUsers = async () => {
             try {
-                users.value = await getUsers();
+                users.value = await listUsers();
 
 
             } catch (error) {
