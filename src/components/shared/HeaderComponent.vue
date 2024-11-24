@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { logout } from '@/core/http/services/authService';
-import { encodeBase64, isAdminOrManager } from '@/core/utils/functions';
+import { isAdminOrManager } from '@/core/utils/functions';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -14,8 +14,7 @@ export default defineComponent({
         };
 
         const handleEditProfile = (): void => {
-            const id = encodeBase64('0');
-            router.push({ name: 'Profile', params: { id } });
+            router.push({ name: 'Profile' });
         };
 
         const navigateTo = (routeName: string): void => {
@@ -112,7 +111,7 @@ export default defineComponent({
                     <button @click="navigateTo('Users')">
                         <span class="material-icons">groups</span> Listar
                     </button>
-                    <button @click="navigateTo('')">
+                    <button @click="navigateTo('CreateProfile')">
                         <span class="material-icons">person_add</span> Novo
                     </button>
                 </div>

@@ -8,7 +8,7 @@ import { deleteUser, getProfile, logout, updateUser } from '@/core/http/services
 import { User } from '@/core/types/auth';
 
 export default defineComponent({
-    name: 'UserProfilePage',
+    name: 'ProfilePage',
     components: {
         UserForm
     },

@@ -144,7 +144,7 @@ export default defineComponent({
                     <span class="required-indicator">*</span>
                     <select :disabled="isUser" id="role" v-model="formData.role" required>
                         <option value="" disabled>Selecione o Papel</option>
-                        <option v-if="!isManager" value="admin">Administrador</option>
+                        <option :disabled="isManager" value="admin">Administrador</option>
                         <option value="manager">Gerente</option>
                         <option value="user">Usuário</option>
                     </select>
@@ -158,8 +158,8 @@ export default defineComponent({
                 </div>
                 <div class="form-group">
                     <InputPassword id="passwordConfirmation" label="Confirmar Senha" v-model="passwordConfirmation"
-                        placeholder="Confirme a senha" :required="password?.length > 0"
-                        :disabled="!(password?.length > 0)" />
+                        placeholder="Confirme a senha" :required="password?.length > 0 || !isEditing"
+                        :disabled="!(password?.length > 0) && isEditing" />
                 </div>
             </div>
 
