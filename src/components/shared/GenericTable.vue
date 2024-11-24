@@ -67,7 +67,8 @@ export default defineComponent({
 <style scoped>
 .container {
     margin: 20px !important;
-
+    width: 100%;
+    max-width: fit-content !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -91,10 +92,11 @@ thead {
 
 th,
 td {
-    padding: 10px;
+    width: 100%;
+    padding: 10px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    word-wrap: break-word;
+    white-space: nowrap;
 }
 
 h3 {

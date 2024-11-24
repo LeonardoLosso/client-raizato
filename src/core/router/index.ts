@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import LoginPage from '@/views/LoginPage.vue';
+import LoginPage from '@/views/Auth/LoginPage.vue';
 import HomePage from '@/views/HomePage.vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
-import ProfilePage from '@/views/ProfilePage.vue';
-import UserPage from '@/views/UserPage.vue';
+import ProfilePage from '@/views/Auth/ProfilePage.vue';
+import UserPage from '@/views/Auth/UserPage.vue';
 import { isAdminOrManager } from '../utils/functions';
+import SuppliersPage from '@/views/Supplier/SuppliersPage.vue';
+import ProductPage from '@/views/Product/ProductPage.vue';
+import CategoryPage from '@/views/Category/CategoryPage.vue';
 
 const routes = [
     {
@@ -22,6 +25,21 @@ const routes = [
         path: '/auth/users',
         name: 'Users',
         component: UserPage
+    },
+    {
+        path: '/suppliers',
+        name: 'Suppliers',
+        component: SuppliersPage
+    },
+    {
+        path: '/products',
+        name: 'Products',
+        component: ProductPage
+    },
+    {
+        path: '/products/category',
+        name: 'Categories',
+        component: CategoryPage
     },
     {
         path: '/',

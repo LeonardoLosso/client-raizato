@@ -64,9 +64,9 @@ export default defineComponent({
 <style scoped>
 .centered-container {
     display: flex;
-    justify-content: space-around;
     gap: 10px;
     flex-wrap: wrap;
+    width: 100%;
 }
 
 .centered-container>* {
@@ -78,5 +78,17 @@ export default defineComponent({
     .centered-container>* {
         flex: 1 1 100%;
     }
+}
+</style>
+
+<style>
+td.custo,
+td.venda {
+    font-weight: bold !important;
+}
+
+td.custo::before,
+td.venda::before {
+    content: "R$ ";
 }
 </style>

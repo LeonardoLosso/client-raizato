@@ -21,7 +21,7 @@ export default {
   methods: {
     updateHeight() {
       const headerHeight = document.querySelector('header')?.offsetHeight || 0;
-      this.$refs.centeredContainer.style.height = `calc(100vh - ${headerHeight}px)`;
+      this.$refs.centeredContainer.style.height = `calc(100vh - ${headerHeight + 10}px)`;
     }
   }
 }
@@ -30,16 +30,17 @@ export default {
 <template>
   <ToastifyContainer />
   <HeaderComponent v-if="showHeader" />
-  <div ref="centeredContainer" class="centered-container">
+  <div ref="centeredContainer" class="centered-container-app">
     <router-view />
   </div>
 </template>
 
 <style scoped>
-.centered-container {
+.centered-container-app {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 100%;
 }
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+
 import GenericTable from '@/components/shared/GenericTable.vue';
 import { getUsers } from '@/core/http/services/authService';
 import { User } from '@/core/types/auth';
@@ -12,7 +13,6 @@ export default defineComponent({
     setup() {
         const users = ref<User[]>([]);
         const headerMap = {
-            'ID': 'id',
             'Nome': 'fullName',
             'Papel': 'role',
             'Telefone': 'phone',
@@ -52,7 +52,7 @@ export default defineComponent({
 
 <template>
     <div>
-        <GenericTable title="Usuários" :headers="['ID', 'Nome', 'Papel', 'Telefone', 'Email']" :data="users"
+        <GenericTable title="Usuários" :headers="['Nome', 'Papel', 'Telefone', 'Email']" :data="users"
             :headerToPropertyMap="headerMap" @rowDoubleClicked="onRowDoubleClick" />
     </div>
 </template>
@@ -67,5 +67,9 @@ export default defineComponent({
 td.papel {
     font-weight: bold;
     text-align: center;
+}
+
+.container{
+    max-width: fit-content !important;
 }
 </style>
