@@ -2,23 +2,38 @@ import { Category, Movement, Product, ProductParams } from '@/core/types/product
 import api from '../interceptors/httpRequest';
 
 
-export const getProducts = async (productParams?: ProductParams): Promise<Product[]> => {
-    const response =
-        await api.get('/produtos', { params: productParams });
+export const getProducts = async (productParams?: ProductParams): Promise<Product[] | []> => {
+    try {
 
-    return response.data.data;
+        const response =
+            await api.get('/produtos', { params: productParams });
+
+        return response.data;
+    } catch {
+        return [];
+    }
 };
 
 export const getCategories = async (): Promise<Category[]> => {
-    const response =
-        await api.get('/categorias');
+    try {
 
-    return response.data.data;
+        const response =
+            await api.get('/categorias');
+
+        return response.data;
+    } catch {
+        return [];
+    }
 };
 
 export const getMovements = async (): Promise<Movement[]> => {
-    const response =
-        await api.get('/estoque');
+    try {
 
-    return response.data.data;
+        const response =
+            await api.get('/estoque');
+
+        return response.data;
+    } catch {
+        return [];
+    }
 };

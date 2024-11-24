@@ -7,7 +7,7 @@ export const getSuppliers = async () => {
         const response =
             await api.get(BASE_URL);
 
-        return response.data.data;
+        return response.data;
     } catch (error) {
         console.error('Error fetching profiles:', error);
     }
