@@ -26,3 +26,16 @@ export interface Category {
     name: string;
     description: string;
 }
+
+export interface Movement {
+    id: number;
+    productId: number;
+    productName?: string;
+    categoryName?: string;
+    movementType: string;
+    quantity: number;
+    unitPrice: number;
+    totalPrice: number;
+    description?: string;
+    date?: Date;
+}
