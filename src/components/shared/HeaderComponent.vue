@@ -96,7 +96,7 @@ export default defineComponent({
                     <button @click="navigateTo('Suppliers')">
                         <span class="material-icons">groups</span> Listar
                     </button>
-                    <button @click="navigateTo('')">
+                    <button @click="navigateTo('CreateSupplier')">
                         <span class="material-icons">person_add</span> Novo
                     </button>
                 </div>

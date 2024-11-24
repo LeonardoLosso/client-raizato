@@ -1,10 +1,12 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import { getSuppliers } from '@/core/http/services/supplierService';
+import { listSuppliers } from '@/core/http/services/supplierService';
 
 import { Supplier } from '@/core/types/suppliers';
 import GenericTable from '@/components/shared/GenericTable.vue';
+import { encodeBase64 } from '@/core/utils/functions';
+import router from '@/core/router';
 
 export default defineComponent({
     name: 'SupplierPage',
@@ -19,7 +21,7 @@ export default defineComponent({
 
         const fetchSuppliers = async () => {
             try {
-                suppliers.value = await getSuppliers();
+                suppliers.value = await listSuppliers();
             } catch (error) {
                 console.error('Erro ao carregar fornecedores', error);
             }
@@ -30,9 +32,11 @@ export default defineComponent({
         });
 
         const onRowDoubleClick = (row: Supplier) => {
-            if (!row?.id) return;
+            if (!(row?.id)) return;
 
-            console.log('Fornecedor clicado:', row);
+            const id = encodeBase64(row.id.toString());
+
+            router.push({ name: 'UpdateSupplier', params: { id } });
         };
 
         return {

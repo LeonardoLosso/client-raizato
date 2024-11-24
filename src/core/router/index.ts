@@ -11,16 +11,25 @@ import ProductPage from '@/views/Product/ProductPage.vue';
 import CategoryPage from '@/views/Category/CategoryPage.vue';
 import MovementPage from '@/views/Product/MovementPage.vue';
 import CreateProfilePage from '@/views/Auth/CreateProfilePage.vue';
+import CreateSupplierPage from '@/views/Supplier/CreateSupplierPage.vue';
+import UpdateSupplierPage from '@/views/Supplier/UpdateSupplierPage.vue';
 
 const routes = [
     { name: 'Login', component: LoginPage, path: '/auth/login' },
     { name: 'Profile', component: ProfilePage, path: '/auth/profile/:id?' },
     { name: 'CreateProfile', component: CreateProfilePage, path: '/auth/new/profile' },
     { name: 'Users', component: UserPage, path: '/auth/users' },
+
     { name: 'Suppliers', component: SuppliersPage, path: '/suppliers' },
+    { name: 'CreateSupplier', component: CreateSupplierPage, path: '/new/suppliers' },
+    { name: 'UpdateSupplier', component: UpdateSupplierPage, path: '/update/suppliers/:id' },
+
     { name: 'Products', component: ProductPage, path: '/products' },
+
     { name: 'Categories', component: CategoryPage, path: '/products/categories' },
+
     { name: 'Movements', component: MovementPage, path: '/products/movements' },
+
     { name: 'Home', component: HomePage, path: '/' },
     { name: 'NotFound', component: NotFoundPage, path: '/:catchAll(.*)' },
 ];

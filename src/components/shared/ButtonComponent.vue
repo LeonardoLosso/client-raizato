@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template>
-    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading || disabled">
+    <button :class="['btn', type, { loading }]" @click="handleClick" :disabled="loading || disabled" type="button">
         <template v-if="loading">
             <span class="spinner"></span>
         </template>
