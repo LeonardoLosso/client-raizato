@@ -12,7 +12,6 @@ export default defineComponent({
         SupplierForm
     },
     setup() {
-        const supplier = ref<Supplier | null>(null);
         const isSaving = ref(false);
 
         const router = useRouter();
@@ -34,7 +33,6 @@ export default defineComponent({
         });
 
         return {
-            supplier,
             isSaving,
             handleSubmit,
             handleCancel,

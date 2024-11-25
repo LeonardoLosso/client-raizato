@@ -11,14 +11,14 @@ export interface Product {
     code: string;
     description?: string;
     categoryId: number;
-    categoryName?: string;
-    fornecedorName?: string;
+    categoryName: string;
+    fornecedorName: string;
     fornecedorId: number;
-    costPrice: number;
-    salePrice: number;
-    minStock: number;
+    costPrice?: number;
+    salePrice?: number;
+    minStock?: number;
     stock?: number;
-    expiryDate: Date;
+    expiryDate?: Date;
 }
 
 export interface Category {

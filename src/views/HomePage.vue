@@ -2,7 +2,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import GenericTable from '@/components/shared/GenericTable.vue';
 import { Product } from '@/core/types/products';
-import { getProducts } from '@/core/http/services/productService';
+import { listProducts } from '@/core/http/services/productService';
 
 export default defineComponent({
     name: 'HomePage',
@@ -28,8 +28,8 @@ export default defineComponent({
 
         const fetchProducts = async () => {
             try {
-                lowStockData.value = await getProducts({ low_stock: true });
-                expiringStockData.value = await getProducts({});
+                lowStockData.value = await listProducts({ low_stock: true });
+                expiringStockData.value = await listProducts({});
             } catch (error) {
                 console.error('Erro ao carregar produtos', error);
             }

@@ -1,7 +1,7 @@
 <script>
-import InputPassword from "@/components/auth/InputPassword.vue";
+import InputPassword from "@/components/shared/input/InputPassword.vue";
 import ButtonComponent from "@/components/shared/ButtonComponent.vue";
-import InputField from "@/components/shared/InputField.vue";
+import InputField from "@/components/shared/input/InputField.vue";
 import { login } from '@/core/http/services/authService';
 
 export default {

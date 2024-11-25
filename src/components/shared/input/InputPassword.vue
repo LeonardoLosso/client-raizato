@@ -54,12 +54,6 @@ export default {
 </template>
 
 <style scoped>
-.input-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
 button.toggle-password {
     position: absolute;
     right: 0.5rem;

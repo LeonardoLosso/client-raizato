@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
-import InputPassword from '@/components/auth/InputPassword.vue';
-import InputField from '../shared/InputField.vue';
+import InputPassword from '@/components/shared/input/InputPassword.vue';
+import InputField from '../shared/input/InputField.vue';
 import ButtonComponent from '../shared/ButtonComponent.vue';
 import { isAdmin, isAdminOrManager } from '@/core/utils/functions';
 import { User } from '@/core/types/auth';
@@ -134,7 +134,7 @@ export default defineComponent({
                 <InputField label="Telefone" id="phone" v-model="formData.phone" placeholder="Telefone do cadastro"
                     autocomplete="tel" />
             </div>
-            <div class="container-group">
+            <div class="form-group-inline">
                 <div class="form-group">
                     <InputField label="Email" id="email" v-model="formData.email" placeholder="Email do cadastro"
                         autocomplete="email" required />
@@ -151,7 +151,7 @@ export default defineComponent({
                 </div>
             </div>
 
-            <div class="container-group">
+            <div class="form-group-inline">
                 <div class="form-group">
                     <InputPassword id="password" :label="isEditing ? 'Nova Senha' : 'Senha'" v-model="password"
                         placeholder="Digite a senha" :required="!isEditing || password?.length > 0" />
@@ -173,54 +173,18 @@ export default defineComponent({
 
             <div class="form-actions">
                 <div class="wrap-btn">
-                    <ButtonComponent :loading="isSaving" type="primary" label="Salvar" @clickEvent="submitForm" :disabled="isSaving || isDeleting"/>
+                    <ButtonComponent :loading="isSaving" type="primary" label="Salvar" @clickEvent="submitForm"
+                        :disabled="isSaving || isDeleting" />
 
-                    <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel" :disabled="isSaving || isDeleting"/>
+                    <ButtonComponent type="cancel" label="Cancelar" @clickEvent="cancel"
+                        :disabled="isSaving || isDeleting" />
                 </div>
 
                 <ButtonComponent v-if="isEditing && !isUser" :loading="isDeleting" type="delete" label="Excluir"
-                    @clickEvent="deleteUser" :disabled="isSaving || isDeleting"/>
+                    @clickEvent="deleteUser" :disabled="isSaving || isDeleting" />
             </div>
         </form>
     </div>
 </template>
 
-<style scoped>
-.container {
-    max-width: 600px;
-    padding: 20px;
-    background-color: #fafafa;
-}
-
-.container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.container-group {
-    display: flex;
-    gap: 20px;
-}
-
-.container-group .form-group {
-    flex: 1;
-    margin: 0 !important;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 30px;
-}
-
-.wrap-btn {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-</style>
+<style scoped></style>

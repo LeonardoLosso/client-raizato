@@ -9,10 +9,12 @@ import { isAdminOrManager } from '../utils/functions';
 import SuppliersPage from '@/views/Supplier/SuppliersPage.vue';
 import ProductPage from '@/views/Product/ProductPage.vue';
 import CategoryPage from '@/views/Category/CategoryPage.vue';
-import MovementPage from '@/views/Product/MovementPage.vue';
+import MovementPage from '@/views/Movement/MovementPage.vue';
 import CreateProfilePage from '@/views/Auth/CreateProfilePage.vue';
 import CreateSupplierPage from '@/views/Supplier/CreateSupplierPage.vue';
 import UpdateSupplierPage from '@/views/Supplier/UpdateSupplierPage.vue';
+import CreateProductPage from '@/views/Product/CreateProductPage.vue';
+import UpdateProductPage from '@/views/Product/UpdateProductPage.vue';
 
 const routes = [
     { name: 'Login', component: LoginPage, path: '/auth/login' },
@@ -25,6 +27,8 @@ const routes = [
     { name: 'UpdateSupplier', component: UpdateSupplierPage, path: '/update/suppliers/:id' },
 
     { name: 'Products', component: ProductPage, path: '/products' },
+    { name: 'CreateProduct', component: CreateProductPage, path: '/new/products' },
+    { name: 'UpdateProduct', component: UpdateProductPage, path: '/new/products/:id' },
 
     { name: 'Categories', component: CategoryPage, path: '/products/categories' },
 

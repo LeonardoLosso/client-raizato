@@ -12,7 +12,6 @@ export default defineComponent({
         UserForm
     },
     setup() {
-        const user = ref<User | null>(null);
         const isSaving = ref(false);
 
         const router = useRouter();
@@ -35,7 +34,6 @@ export default defineComponent({
         });
 
         return {
-            user,
             isSaving,
             handleSubmit,
             handleCancel,

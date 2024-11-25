@@ -1,8 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
-import { getProducts } from '@/core/http/services/productService';
+import { listProducts } from '@/core/http/services/productService';
 import { Product } from '@/core/types/products';
 import GenericTable from '@/components/shared/GenericTable.vue';
+import { encodeBase64 } from '@/core/utils/functions';
+import router from '@/core/router';
 
 export default defineComponent({
     name: 'ProductPage',
@@ -23,7 +25,7 @@ export default defineComponent({
 
         const fetchProducts = async () => {
             try {
-                products.value = await getProducts();
+                products.value = await listProducts();
             } catch (error) {
                 console.error('Erro ao carregar produtos', error);
             }
@@ -34,8 +36,11 @@ export default defineComponent({
         });
 
         const onRowDoubleClick = (row: Product) => {
-            if (!row?.id) return;
-            console.log('Produto clicado:', row);
+            if (!(row?.id)) return;
+
+            const id = encodeBase64(row.id.toString());
+
+            router.push({ name: 'UpdateProduct', params: { id } });
         };
 
         return {

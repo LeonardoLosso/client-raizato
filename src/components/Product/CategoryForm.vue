@@ -2,26 +2,25 @@
 import { defineComponent, ref, watch } from 'vue';
 import InputField from '../shared/input/InputField.vue';
 import ButtonComponent from '../shared/ButtonComponent.vue';
-import { Supplier } from '@/core/types/suppliers';
 
 export default defineComponent({
-    name: 'SupplierForm',
+    name: 'CategoryForm',
     components: {
         InputField,
         ButtonComponent
     },
     props: {
-        supplier: {
-            type: Object as () => Supplier,
+        category: {
+            type: Object as () => { id: number | null, nome: string, descricao: string },
             required: false,
-            default: () => ({ id: null, nome: '', cnpj: '', contato: '' }),
+            default: () => ({ id: null, nome: '', descricao: '' }),
         },
         isEditing: { type: Boolean, default: false },
         isSaving: { type: Boolean, default: false },
         isDeleting: { type: Boolean, default: false }
     },
     setup(props, { emit }) {
-        const formData = ref({ ...props.supplier });
+        const formData = ref({ ...props.category });
         const errorMessages = ref<string[]>([]);
 
         const validateForm = (): boolean => {
@@ -31,18 +30,13 @@ export default defineComponent({
                 errorMessages.value.push('Nome é obrigatório.');
             }
 
-            if (!formData.value.cnpj) {
-                errorMessages.value.push('CNPJ é obrigatório.');
-            }
-
             return errorMessages.value.length === 0;
         };
 
         const submitForm = () => {
-
             if (validateForm()) {
-                const form: Supplier = { ...formData.value };
-                emit('saveSupplier', form);
+                const form = { ...formData.value };
+                emit('saveCategory', form);
             }
         };
 
@@ -50,13 +44,13 @@ export default defineComponent({
             emit('cancel');
         };
 
-        const deleteSupplier = () => {
-            if (confirm('Tem certeza de que deseja excluir este fornecedor?')) {
+        const deleteCategory = () => {
+            if (confirm('Tem certeza de que deseja excluir esta categoria?')) {
                 emit('delete', formData.value.id);
             }
         };
 
-        watch(() => props.supplier, (newVal) => {
+        watch(() => props.category, (newVal) => {
             formData.value = { ...newVal };
         }, { deep: true });
 
@@ -65,7 +59,7 @@ export default defineComponent({
             errorMessages,
             submitForm,
             cancel,
-            deleteSupplier
+            deleteCategory
         };
     }
 });
@@ -73,17 +67,14 @@ export default defineComponent({
 
 <template>
     <div class="container">
-        <h1>{{ isEditing ? "Editar Fornecedor" : "Novo Fornecedor" }}</h1>
+        <h1>{{ isEditing ? "Editar Categoria" : "Nova Categoria" }}</h1>
         <form @submit.prevent="submitForm">
             <div class="form-group">
-                <InputField label="Nome" id="name" v-model="formData.nome" placeholder="Nome do fornecedor" required />
+                <InputField label="Nome" id="name" v-model="formData.nome" placeholder="Nome da categoria" required />
             </div>
             <div class="form-group">
-                <InputField label="CNPJ" id="cnpj" v-model="formData.cnpj" placeholder="CNPJ do fornecedor" required />
-            </div>
-            <div class="form-group">
-                <InputField label="Contato" id="contact" v-model="formData.contato"
-                    placeholder="Contato do fornecedor" />
+                <InputField label="Descrição" id="description" v-model="formData.descricao"
+                    placeholder="Descrição da categoria" />
             </div>
 
             <div class="form-errors" v-if="errorMessages.length">
@@ -104,7 +95,7 @@ export default defineComponent({
                 </div>
 
                 <ButtonComponent v-if="isEditing" :loading="isDeleting" type="delete" label="Excluir"
-                    @clickEvent="deleteSupplier" :disabled="isSaving || isDeleting" />
+                    @clickEvent="deleteCategory" :disabled="isSaving || isDeleting" />
             </div>
         </form>
     </div>

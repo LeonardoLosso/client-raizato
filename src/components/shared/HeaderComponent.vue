@@ -44,26 +44,14 @@ export default defineComponent({
         </div>
 
         <nav class="menu">
+            <!-- MOVIMENTAÇÕES -->
             <div class="menu-item">
                 <button class="menu-button" @click="navigateTo('Movements')">
                     <span class="material-icons">swap_horiz</span> Movimentações
                 </button>
+                <!-- SUBMENU -->
                 <div class="submenu" v-if="!isUser">
                     <button @click="navigateTo('Movements')">
-                        <span class="material-icons">list</span> Listar
-                    </button>
-                    <button @click="navigateTo('')">
-                        <span class="material-icons">add</span> Novo
-                    </button>
-                </div>
-            </div>
-
-            <div class="menu-item">
-                <button class="menu-button" @click="navigateTo('Categories')">
-                    <span class="material-icons">category</span> Categorias
-                </button>
-                <div class="submenu" v-if="!isUser">
-                    <button @click="navigateTo('Categories')">
                         <span class="material-icons">list</span> Listar
                     </button>
                     <button @click="navigateTo('')">
@@ -77,8 +65,25 @@ export default defineComponent({
                 <button class="menu-button" @click="navigateTo('Products')">
                     <span class="material-icons">store</span> Produtos
                 </button>
+                <!-- SUBMENU -->
                 <div class="submenu" v-if="!isUser">
                     <button @click="navigateTo('Products')">
+                        <span class="material-icons">list</span> Listar
+                    </button>
+                    <button @click="navigateTo('CreateProduct')">
+                        <span class="material-icons">add</span> Novo
+                    </button>
+                </div>
+            </div>
+
+            <!-- CATEGORIAS -->
+            <div class="menu-item">
+                <button class="menu-button" @click="navigateTo('Categories')">
+                    <span class="material-icons">category</span> Categorias
+                </button>
+                <!-- SUBMENU -->
+                <div class="submenu" v-if="!isUser">
+                    <button @click="navigateTo('Categories')">
                         <span class="material-icons">list</span> Listar
                     </button>
                     <button @click="navigateTo('')">
@@ -92,6 +97,7 @@ export default defineComponent({
                 <button class="menu-button" @click="navigateTo('Suppliers')">
                     <span class="material-icons">person</span> Fornecedores
                 </button>
+                <!-- SUBMENU -->
                 <div class="submenu" v-if="!isUser">
                     <button @click="navigateTo('Suppliers')">
                         <span class="material-icons">groups</span> Listar
@@ -107,6 +113,7 @@ export default defineComponent({
                 <button class="menu-button" @click="navigateTo('Users')">
                     <span class="material-icons">manage_accounts</span> Usuários
                 </button>
+                <!-- SUBMENU -->
                 <div class="submenu">
                     <button @click="navigateTo('Users')">
                         <span class="material-icons">groups</span> Listar
@@ -122,6 +129,7 @@ export default defineComponent({
             <button class="menu-button">
                 <span class="material-icons">settings</span> Configurações
             </button>
+            <!-- SUBMENU -->
             <div class="submenu">
                 <button @click="handleEditProfile">
                     <span class="material-icons">person</span> Editar Perfil

@@ -53,8 +53,4 @@ export default defineComponent({
 </template>
 
 
-<style scoped>
-.input-field {
-  margin-bottom: 15px;
-}
-</style>
+<style scoped></style>
