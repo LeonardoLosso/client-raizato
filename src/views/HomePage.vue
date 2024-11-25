@@ -53,7 +53,7 @@ export default defineComponent({
         <div class="centered-container">
             <GenericTable :title="'Produtos com Estoque Baixo'"
                 :headers="['Produto', 'Estoque', 'Minimo', 'Categoria', 'Custo', 'Venda']" :data="lowStockData"
-                :headerToPropertyMap="headerToPropertyMap" />
+                :headerToPropertyMap="headerToPropertyMap" class="tabela-min" />
             <GenericTable :title="'Produtos Próximos do Vencimento'"
                 :headers="['Produto', 'Validade', 'Estoque', 'Categoria', 'Custo', 'Venda']" :data="expiringStockData"
                 :headerToPropertyMap="headerToPropertyMap" />
@@ -79,16 +79,26 @@ export default defineComponent({
         flex: 1 1 100%;
     }
 }
+
+.tabela-min.estoque td.estoque,
+.tabela-min.estoque td.minimo {
+    font-weight: bold !important;
+}
 </style>
 
 <style>
 td.custo,
-td.venda {
+td.venda,
+td.valor,
+td.validade,
+.tabela-min.estoque td.estoque,
+.tabela-min.estoque td.minimo {
     font-weight: bold !important;
 }
 
 td.custo::before,
-td.venda::before {
+td.venda::before,
+td.valor::before {
     content: "R$ ";
 }
 </style>

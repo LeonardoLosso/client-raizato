@@ -30,6 +30,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        hide: {
+            type: Boolean,
+            default: false,
+        },
         firstQuery: {
             type: [String, null]
         }
@@ -100,6 +104,9 @@ export default defineComponent({
                 searchQuery.value = newQuery.charAt(0).toUpperCase() + newQuery.slice(1);
             }
 
+            if (!newQuery) emit('update:modelValue', null);
+
+
             if (!options.value.length || options.value[0].name.indexOf(newQuery) !== 0) {
                 autocompleteHint.value = '';
             }
@@ -130,7 +137,7 @@ export default defineComponent({
 
 <template>
     <div class="dropdown-container">
-        <label :for="id">{{ label }}</label>
+        <label v-if="!hide" :for="id">{{ label }}</label>
         <span v-if="isRequired" class="required-indicator">*</span>
         <div class="input-wrapper">
             <input v-model="searchQuery" :id="id" class="form-control" :placeholder="`Buscar por ${label}`"
@@ -139,6 +146,7 @@ export default defineComponent({
             <span v-if="autocompleteHint && searchQuery" class="autocomplete-hint">
                 {{ autocompleteHint }}
             </span>
+            <span class="material-icons">search</span>
         </div>
         <ul v-if="isDropdownVisible && options.length" class="dropdown-list">
             <li v-for="(option, index) in options" :key="index" class="dropdown-item" @click="handleSelection(option)">
@@ -150,9 +158,23 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.material-icons {
+    position: absolute;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+}
+
 .dropdown-container {
     position: relative;
     margin-bottom: 15px;
+    border: none;
 }
 
 .input-wrapper {

@@ -28,7 +28,8 @@ export default defineComponent({
         },
         isEditing: { type: Boolean, default: false },
         isSaving: { type: Boolean, default: false },
-        isDeleting: { type: Boolean, default: false }
+        isDeleting: { type: Boolean, default: false },
+        firstAccess: { type: Boolean, default: false }
     },
     setup(props, { emit }) {
         const formData = ref({ ...props.user });
@@ -187,4 +188,8 @@ export default defineComponent({
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.input-field {
+    margin-bottom: 15px;
+}
+</style>

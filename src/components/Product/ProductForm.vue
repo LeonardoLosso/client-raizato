@@ -6,12 +6,14 @@ import InputField from '../shared/input/InputField.vue';
 import InputNumber from '../shared/input/InputNumber.vue';
 import DropdownBase from '../shared/input/DropdownBase.vue';
 import InputData from '../shared/input/InputData.vue';
+import InputTextArea from '../shared/input/InputTextArea.vue';
 
 export default defineComponent({
     name: 'ProductForm',
     components: {
         InputField,
         InputNumber,
+        InputTextArea,
         ButtonComponent,
         DropdownBase,
         InputData
@@ -45,32 +47,41 @@ export default defineComponent({
         const validateForm = (): boolean => {
             errorMessages.value = [];
 
-            if (!formData.value.name) {
-                errorMessages.value.push('Nome é obrigatório.');
+            // Validar nome
+            if (!formData.value.name?.trim()) {
+                errorMessages.value.push('O campo "Nome" é obrigatório.');
             }
 
-            if (!formData.value.code) {
-                errorMessages.value.push('Código é obrigatório.');
+            // Validar código
+            if (!formData.value.code?.trim()) {
+                errorMessages.value.push('O campo "Código" é obrigatório.');
             }
 
+            // Validar categoria e fornecedor
             if (!formData.value.categoryId) {
-                errorMessages.value.push('Categoria é obrigatória.');
+                errorMessages.value.push('A seleção de uma "Categoria" é obrigatória.');
             }
-
             if (!formData.value.fornecedorId) {
-                errorMessages.value.push('Fornecedor é obrigatório.');
+                errorMessages.value.push('A seleção de um "Fornecedor" é obrigatória.');
             }
 
-            if ((formData.value.costPrice ?? 0) <= 0) {
-                errorMessages.value.push('Preço de custo deve ser maior que 0.');
+            // Validar preços
+            if (!formData.value.costPrice || formData.value.costPrice <= 0) {
+                errorMessages.value.push('O campo "Preço de Custo" deve ser maior que 0.');
+            }
+            if (!formData.value.salePrice || formData.value.salePrice <= 0) {
+                errorMessages.value.push('O campo "Preço de Venda" deve ser maior que 0.');
+            }
+            if (formData.value.salePrice && formData.value.costPrice && formData.value.salePrice < formData.value.costPrice) {
+                errorMessages.value.push('O "Preço de Venda" não pode ser menor que o "Preço de Custo".');
             }
 
-            if ((formData.value.salePrice ?? 0) <= 0) {
-                errorMessages.value.push('Preço de venda deve ser maior que 0.');
+            // Validar estoque
+            if (formData.value.minStock !== null && (formData.value.minStock ?? 0) < 0) {
+                errorMessages.value.push('O campo "Estoque Mínimo" não pode ser negativo.');
             }
-
-            if ((formData.value.minStock ?? 0) < 0) {
-                errorMessages.value.push('Estoque mínimo não pode ser negativo.');
+            if (formData.value.stock !== null && (formData.value.stock ?? 0) < 0) {
+                errorMessages.value.push('O campo "Estoque" não pode ser negativo.');
             }
 
             return errorMessages.value.length === 0;
@@ -147,28 +158,32 @@ export default defineComponent({
 
             <div class="form-group-inline">
                 <div class="form-group">
-                    <InputNumber label="Preço de Custo" id="costPrice" v-model="formData.costPrice" :min="0" required />
+                    <InputNumber label="Preço de Custo" id="costPrice" v-model="formData.costPrice" :min="1" required />
                 </div>
                 <div class="form-group">
-                    <InputNumber label="Preço de Venda" id="salePrice" v-model="formData.salePrice" :min="0" required />
+                    <InputNumber label="Preço de Venda" id="salePrice" v-model="formData.salePrice" :min="1" required />
                 </div>
             </div>
 
             <div class="form-group-inline">
                 <div class="form-group">
-                    <InputNumber label="Estoque Mínimo" id="minStock" v-model="formData.minStock" :min="0" :step="1"
+                    <InputNumber label="Estoque Mínimo" id="minStock" v-model="formData.minStock" :min="1" :step="1"
                         required :currency="false" />
                 </div>
                 <div class="form-group">
                     <InputData label="Data de Validade" id="expiryDate" v-model="formData.expiryDate" required />
-
                 </div>
             </div>
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <InputNumber label="Ajuste de Estoque" id="stock" v-model="formData.stock" :min="1" :step="1"
+                        required :currency="false" />
+                </div>
+                <span class="spacer-f1"></span>
+            </div>
             <div class="form-group">
-                <label for="description">Descrição</label>
-                <textarea id="description" v-model="formData.description" placeholder="Descrição do produto"
-                    maxlength="500" rows="4" cols="50" class="form-control"></textarea>
-                <small>{{ formData.description?.length }} / 500 caracteres</small>
+                <InputTextArea label="Descrição" id="description" v-model="formData.description"
+                    placeholder="Descrição da categoria" :maxlength="500" :rows="4" :cols="50" />
             </div>
 
             <div class="form-errors" v-if="errorMessages.length">
@@ -195,8 +210,4 @@ export default defineComponent({
     </div>
 </template>
 
-<style scoped>
-textarea {
-    resize: none;
-}
-</style>
+<style scoped></style>

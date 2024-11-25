@@ -50,11 +50,11 @@ export default defineComponent({
                     <span class="material-icons">swap_horiz</span> Movimentações
                 </button>
                 <!-- SUBMENU -->
-                <div class="submenu" v-if="!isUser">
+                <div class="submenu">
                     <button @click="navigateTo('Movements')">
                         <span class="material-icons">list</span> Listar
                     </button>
-                    <button @click="navigateTo('')">
+                    <button @click="navigateTo('CreateMovement')">
                         <span class="material-icons">add</span> Novo
                     </button>
                 </div>
@@ -86,7 +86,7 @@ export default defineComponent({
                     <button @click="navigateTo('Categories')">
                         <span class="material-icons">list</span> Listar
                     </button>
-                    <button @click="navigateTo('')">
+                    <button @click="navigateTo('CreateCategory')">
                         <span class="material-icons">add</span> Novo
                     </button>
                 </div>

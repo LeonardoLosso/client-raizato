@@ -25,6 +25,17 @@ export default defineComponent({
     setup(_, { emit }) {
         const selectedRowIndex = ref<number | null>(null);
 
+        const formatDate = (value: string | Date) => {
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            return value;
+        };
+
         const handleClick = (row: any, index: number) => {
             selectedRowIndex.value = index;
             emit('rowClicked', row);
@@ -37,7 +48,8 @@ export default defineComponent({
         return {
             selectedRowIndex,
             handleClick,
-            handleDoubleClick
+            handleDoubleClick,
+            formatDate
         };
     }
 });
@@ -56,7 +68,12 @@ export default defineComponent({
                 <tr v-for="(row, index) in data" :key="index" :class="{ selected: index === selectedRowIndex }"
                     @click="handleClick(row, index)" @dblclick="handleDoubleClick(row)">
                     <td v-for="(header, colIndex) in headers" :key="colIndex" :class="header.toLowerCase()">
-                        {{ row[headerToPropertyMap[header]] }}
+                        <span v-if="header.toLowerCase() === 'data' || header.toLowerCase() === 'validade'">
+                            {{ formatDate(row[headerToPropertyMap[header]]) }}
+                        </span>
+                        <span v-else>
+                            {{ row[headerToPropertyMap[header]] }}
+                        </span>
                     </td>
                 </tr>
             </tbody>

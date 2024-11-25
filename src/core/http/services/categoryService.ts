@@ -1,14 +1,13 @@
-import { Product, ProductParams } from '@/core/types/products';
+import { Category } from '@/core/types/products';
 import api from '../interceptors/httpRequest';
 import { decodeBase64 } from '@/core/utils/functions';
 
-const BASE_URL = '/produtos/';
+const BASE_URL = '/categorias/';
 
-export const listProducts = async (productParams?: ProductParams): Promise<Product[] | []> => {
+export const listCategories = async () => {
     try {
-
         const response =
-            await api.get(BASE_URL, { params: productParams });
+            await api.get(BASE_URL);
 
         return response.data;
     } catch {
@@ -16,16 +15,16 @@ export const listProducts = async (productParams?: ProductParams): Promise<Produ
     }
 };
 
-export const createProduct = async (product: Product) => {
+export const createCategory = async (category: Category) => {
     try {
-        await api.post(BASE_URL, product);
+        await api.post(BASE_URL, category);
         return true;
     } catch (error) {
         return null;
     }
 };
 
-export const getProduct = async (id: string | number = 0) => {
+export const getCategory = async (id: string | number = 0) => {
     try {
         if (!id) id = 0;
         if (typeof id === 'string') id = decodeBase64(id);
@@ -38,16 +37,16 @@ export const getProduct = async (id: string | number = 0) => {
     }
 };
 
-export const updateProduct = async (product: Product) => {
+export const updateCategory = async (category: Category) => {
     try {
-        await api.put(BASE_URL + product.id, product);
+        await api.put(BASE_URL + category.id, category);
         return true;
     } catch (error) {
         return false;
     }
 };
 
-export const deleteProduct = async (id: number) => {
+export const deleteCategory = async (id: number) => {
     try {
         await api.delete(BASE_URL + id);
         return true;

@@ -43,7 +43,7 @@ export default defineComponent({
         const handleDelete = async (id: number) => {
             isDeleting.value = true;
             const res = await deleteUser(id);
-            if (res) logout(router);
+            if (res && id == 0) logout(router);
             isDeleting.value = false;
         };
 

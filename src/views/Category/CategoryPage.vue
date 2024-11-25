@@ -1,8 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import GenericTable from '@/components/shared/GenericTable.vue';
-import { getCategories } from '@/core/http/services/productService';
 import { Category } from '@/core/types/products';
+import { listCategories } from '@/core/http/services/categoryService';
+import { encodeBase64 } from '@/core/utils/functions';
+import router from '@/core/router';
 
 export default defineComponent({
     name: 'CategoryPage',
@@ -16,7 +18,7 @@ export default defineComponent({
 
         const fetchCategories = async () => {
             try {
-                categories.value = await getCategories();
+                categories.value = await listCategories();
             } catch (error) {
                 console.error('Erro ao carregar categorias', error);
             }
@@ -28,7 +30,9 @@ export default defineComponent({
 
         const onRowDoubleClick = (row: Category) => {
             if (!row?.id) return;
-            console.log('Categoria clicada:', row);
+            const id = encodeBase64(row.id.toString());
+
+            router.push({ name: 'UpdateCategory', params: { id } });
         };
 
         return {

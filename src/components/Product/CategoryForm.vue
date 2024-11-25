@@ -2,18 +2,21 @@
 import { defineComponent, ref, watch } from 'vue';
 import InputField from '../shared/input/InputField.vue';
 import ButtonComponent from '../shared/ButtonComponent.vue';
+import { Category } from '@/core/types/products';
+import InputTextArea from '../shared/input/InputTextArea.vue';
 
 export default defineComponent({
     name: 'CategoryForm',
     components: {
         InputField,
+        InputTextArea,
         ButtonComponent
     },
     props: {
         category: {
-            type: Object as () => { id: number | null, nome: string, descricao: string },
+            type: Object as () => Category,
             required: false,
-            default: () => ({ id: null, nome: '', descricao: '' }),
+            default: () => ({ id: null, name: '', description: '' }),
         },
         isEditing: { type: Boolean, default: false },
         isSaving: { type: Boolean, default: false },
@@ -26,7 +29,7 @@ export default defineComponent({
         const validateForm = (): boolean => {
             errorMessages.value = [];
 
-            if (!formData.value.nome) {
+            if (!formData.value.name) {
                 errorMessages.value.push('Nome é obrigatório.');
             }
 
@@ -70,19 +73,12 @@ export default defineComponent({
         <h1>{{ isEditing ? "Editar Categoria" : "Nova Categoria" }}</h1>
         <form @submit.prevent="submitForm">
             <div class="form-group">
-                <InputField label="Nome" id="name" v-model="formData.nome" placeholder="Nome da categoria" required />
+                <InputField label="Nome" id="name" v-model="formData.name" placeholder="Nome da categoria" required />
             </div>
+            
             <div class="form-group">
-                <InputField label="Descrição" id="description" v-model="formData.descricao"
-                    placeholder="Descrição da categoria" />
-            </div>
-
-            <div class="form-errors" v-if="errorMessages.length">
-                <ul>
-                    <li v-for="(error, index) in errorMessages" :key="index">
-                        {{ error }}
-                    </li>
-                </ul>
+                <InputTextArea label="Descrição" id="description" v-model="formData.description"
+                    placeholder="Descrição da categoria" :maxlength="500" :rows="4" :cols="50" />
             </div>
 
             <div class="form-actions">

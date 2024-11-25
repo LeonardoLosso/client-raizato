@@ -21,14 +21,6 @@ export default defineComponent({
             this.$emit('update:modelValue', value);
         },
     },
-    watch: {
-        modelValue(newValue) {
-            if (newValue !== null) {
-                const formattedValue = newValue.toString().replace('.', ',');
-                this.$emit('update:modelValue', formattedValue);
-            }
-        },
-    },
 });
 </script>
 

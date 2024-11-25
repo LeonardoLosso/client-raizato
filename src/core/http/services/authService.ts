@@ -1,5 +1,4 @@
 import { decodeBase64 } from '@/core/utils/functions';
-import axios from 'axios';
 import { Router } from 'vue-router';
 import api from '../interceptors/httpRequest';
 import { Credentials, LoginData, User } from '@/core/types/auth';
@@ -18,8 +17,6 @@ export const login = async (credentials: Credentials, router: Router, redirectTo
     } catch (erro) {
         return;
     }
-
-
 };
 
 export const logout = (router: Router) => {
@@ -81,3 +78,7 @@ export const deleteUser = async (id: number) => {
 };
 
 
+export const someAdmin = async () => {
+    const response = await api.get('/auth/verify');
+    return response.data;
+}

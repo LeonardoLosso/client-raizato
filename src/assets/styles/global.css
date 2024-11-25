@@ -57,3 +57,7 @@ h1 {
     font-size: 1.8em;
     color: #333;
 }
+
+.spacer-f1 {
+    flex: 1;
+}
